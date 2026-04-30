@@ -1,3 +1,16 @@
+/* CSS VARIABLES FOR THEMING */
+:root {
+    --primary-color: #3b82f6;
+    --primary-dark: #2563eb;
+    --bg-light: #f4f6f8;
+    --bg-dark: #1f2937;
+    --text-dark: #1f2937;
+    --text-light: #ffffff;
+    --shadow: 0 6px 15px rgba(0,0,0,0.06);
+    --transition: 0.3s;
+    --transition-long: 0.7s;
+}
+
 /* RESET */
 * {
     margin: 0;
@@ -7,8 +20,8 @@
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: #f4f6f8;
-    color: #1f2937;
+    background: var(--bg-light);
+    color: var(--text-dark);
     scroll-behavior: smooth;
     line-height: 1.6;
 }
@@ -20,6 +33,7 @@ nav {
     width: 100%;
     background: rgba(31, 41, 55, 0.95);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -29,16 +43,22 @@ nav {
 
 .logo {
     font-weight: bold;
-    color: white;
+    color: var(--text-light);
     font-size: 18px;
 }
 
 .nav-links a {
-    color: white;
+    color: var(--text-light);
     margin-left: 25px;
     text-decoration: none;
     font-size: 14px;
     position: relative;
+    transition: color var(--transition);
+}
+
+.nav-links a:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 /* NAV HOVER ANIMATION */
@@ -47,13 +67,14 @@ nav {
     position: absolute;
     width: 0;
     height: 2px;
-    background: #3b82f6;
+    background: var(--primary-color);
     left: 0;
     bottom: -5px;
-    transition: 0.3s;
+    transition: width var(--transition);
 }
 
-.nav-links a:hover::after {
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after {
     width: 100%;
 }
 
@@ -66,6 +87,7 @@ nav {
     align-items: center;
     text-align: center;
     position: relative;
+    margin-top: 60px;
 }
 
 /* DARK OVERLAY */
@@ -80,12 +102,12 @@ nav {
 .hero-content {
     position: relative;
     z-index: 2;
-    color: white;
+    color: var(--text-light);
     animation: fadeIn 1.2s ease-in-out;
 }
 
 .hero-content h1 {
-    font-size: 42px;
+    font-size: clamp(28px, 5vw, 42px);
     margin-bottom: 10px;
 }
 
@@ -97,17 +119,23 @@ nav {
 /* BUTTON */
 .btn {
     display: inline-block;
-    background: #3b82f6;
-    color: white;
+    background: var(--primary-color);
+    color: var(--text-light);
     padding: 12px 22px;
     border-radius: 6px;
     text-decoration: none;
-    transition: 0.3s;
+    transition: all var(--transition);
+    border: 2px solid transparent;
 }
 
 .btn:hover {
-    background: #2563eb;
+    background: var(--primary-dark);
     transform: translateY(-2px);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 /* SECTIONS */
@@ -131,7 +159,7 @@ h2::after {
     content: "";
     width: 50px;
     height: 3px;
-    background: #3b82f6;
+    background: var(--primary-color);
     position: absolute;
     left: 0;
     bottom: -8px;
@@ -139,12 +167,12 @@ h2::after {
 
 /* CARD */
 .card {
-    background: white;
+    background: var(--text-light);
     padding: 25px;
     border-radius: 12px;
     margin-top: 20px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.06);
-    transition: 0.3s;
+    box-shadow: var(--shadow);
+    transition: transform var(--transition);
 }
 
 .card:hover {
@@ -181,18 +209,18 @@ h2::after {
 .show {
     opacity: 1;
     transform: translateY(0);
-    transition: all 0.7s ease;
+    transition: all var(--transition-long) ease;
 }
 
 /* FOOTER */
 footer {
-    background: #1f2937;
-    color: white;
+    background: var(--bg-dark);
+    color: var(--text-light);
     text-align: center;
     padding: 20px;
 }
 
-/* FADE IN */
+/* FADE IN KEYFRAME */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -204,12 +232,24 @@ footer {
     }
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
+/* REDUCED MOTION SUPPORT */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
 
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
     nav {
         flex-direction: column;
         gap: 10px;
+        padding: 15px 20px;
+    }
+
+    .nav-links a {
+        margin-left: 10px;
     }
 
     .grid {
@@ -219,7 +259,12 @@ footer {
     .hero-content h1 {
         font-size: 28px;
     }
+
+    section {
+        padding: 60px 15px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
 }
-Sent
-Compose
-Write to
